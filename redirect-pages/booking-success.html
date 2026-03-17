@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reservation Confirmed — Ocean Properties</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Jost:wght@200;300;400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --sand: #f5f0e8;
+    --deep: #1a1a18;
+    --gold: #c9a96e;
+    --sage: #8a9e8c;
+    --cream: #faf7f2;
+    --muted: #8a8880;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background-color: var(--cream);
+    color: var(--deep);
+    font-family: 'Jost', sans-serif;
+    font-weight: 300;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    position: relative;
+  }
+
+  /* Ambient background */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 80% 60% at 50% 0%, rgba(201,169,110,0.08) 0%, transparent 70%),
+      radial-gradient(ellipse 60% 80% at 100% 100%, rgba(138,158,140,0.06) 0%, transparent 60%);
+    pointer-events: none;
+  }
+
+  /* Decorative wave line */
+  body::after {
+    content: '∿∿∿∿∿∿∿∿∿∿∿∿∿∿∿∿∿∿∿∿∿∿∿∿∿∿∿∿∿∿∿∿∿∿∿∿∿∿∿∿';
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    text-align: center;
+    font-size: 11px;
+    letter-spacing: 2px;
+    color: rgba(201,169,110,0.15);
+    overflow: hidden;
+    white-space: nowrap;
+    padding: 12px 0;
+  }
+
+  .container {
+    text-align: center;
+    padding: 60px 40px;
+    max-width: 680px;
+    width: 90%;
+    animation: fadeUp 1.2s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .icon-wrap {
+    width: 72px;
+    height: 72px;
+    margin: 0 auto 36px;
+    border: 1px solid var(--gold);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: scaleIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.3s both;
+    position: relative;
+  }
+
+  .icon-wrap::before {
+    content: '';
+    position: absolute;
+    inset: -6px;
+    border-radius: 50%;
+    border: 1px solid rgba(201,169,110,0.2);
+  }
+
+  @keyframes scaleIn {
+    from { opacity: 0; transform: scale(0.7); }
+    to { opacity: 1; transform: scale(1); }
+  }
+
+  .checkmark {
+    width: 28px;
+    height: 28px;
+    stroke: var(--gold);
+    stroke-width: 1.5;
+    fill: none;
+    stroke-dasharray: 60;
+    stroke-dashoffset: 60;
+    animation: draw 0.8s ease 0.8s forwards;
+  }
+
+  @keyframes draw {
+    to { stroke-dashoffset: 0; }
+  }
+
+  .eyebrow {
+    font-family: 'Jost', sans-serif;
+    font-weight: 200;
+    font-size: 10px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 20px;
+    animation: fadeUp 1s ease 0.4s both;
+  }
+
+  h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    font-size: clamp(2.4rem, 5vw, 3.4rem);
+    line-height: 1.15;
+    color: var(--deep);
+    margin-bottom: 8px;
+    animation: fadeUp 1s ease 0.5s both;
+  }
+
+  h1 em {
+    font-style: italic;
+    color: var(--gold);
+  }
+
+  .divider {
+    width: 40px;
+    height: 1px;
+    background: var(--gold);
+    margin: 28px auto;
+    animation: expand 0.8s ease 0.7s both;
+    transform-origin: center;
+  }
+
+  @keyframes expand {
+    from { transform: scaleX(0); opacity: 0; }
+    to { transform: scaleX(1); opacity: 1; }
+  }
+
+  .message {
+    font-size: 0.95rem;
+    line-height: 1.9;
+    color: #555550;
+    margin-bottom: 10px;
+    animation: fadeUp 1s ease 0.7s both;
+  }
+
+  .message strong {
+    color: var(--deep);
+    font-weight: 400;
+  }
+
+  .email-note {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(201,169,110,0.07);
+    border: 1px solid rgba(201,169,110,0.25);
+    border-radius: 2px;
+    padding: 12px 20px;
+    font-size: 0.82rem;
+    letter-spacing: 0.3px;
+    color: var(--muted);
+    margin: 24px auto;
+    animation: fadeUp 1s ease 0.85s both;
+  }
+
+  .email-note svg {
+    width: 14px;
+    height: 14px;
+    stroke: var(--gold);
+    fill: none;
+    flex-shrink: 0;
+  }
+
+  .closing {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 1.35rem;
+    color: var(--sage);
+    margin-top: 32px;
+    animation: fadeUp 1s ease 1s both;
+  }
+
+  .lang-divider {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin: 44px 0;
+    animation: fadeUp 1s ease 0.6s both;
+  }
+
+  .lang-divider::before,
+  .lang-divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(to right, transparent, rgba(201,169,110,0.3), transparent);
+  }
+
+  .lang-divider span {
+    font-size: 9px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: rgba(201,169,110,0.5);
+    font-weight: 300;
+  }
+
+  .logo-area {
+    margin-bottom: 44px;
+    animation: fadeUp 1s ease 0.2s both;
+  }
+
+  .logo-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 400;
+    font-size: 0.75rem;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .tagline {
+    font-family: 'Jost', sans-serif;
+    font-weight: 200;
+    font-size: 8px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: rgba(138,158,140,0.7);
+    margin-top: 4px;
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <div class="logo-area">
+    <img src="https://raw.githubusercontent.com/oceanproperties-hue/ocean-properties-email-library/main/assets/logo-circle-black.png" alt="Ocean Properties" style="height:60px;width:auto;display:block;margin:0 auto 10px;">
+    <div class="logo-text">Ocean Properties</div>
+    <div class="tagline">Where Elegance Meets Seclusion</div>
+  </div>
+
+  <div class="icon-wrap">
+    <svg class="checkmark" viewBox="0 0 28 28">
+      <polyline points="5,14 11,20 23,8"/>
+    </svg>
+  </div>
+
+  <!-- ENGLISH -->
+  <p class="eyebrow">Reservation Received</p>
+
+  <h1>Your stay awaits,<br><em>paradise is ready.</em></h1>
+
+  <div class="divider"></div>
+
+  <p class="message">
+    Thank you for choosing <strong>Ocean Properties</strong>.<br>
+    Your reservation request has been received and is being processed.<br>
+    Please check your inbox — a confirmation email is on its way to you.
+  </p>
+
+  <div class="email-note">
+    <svg viewBox="0 0 24 24" stroke-width="1.5"><rect x="2" y="4" width="20" height="16" rx="2"/><polyline points="2,4 12,13 22,4"/></svg>
+    If you don't see it within a few minutes, please check your spam folder.
+  </div>
+
+  <p class="closing">See you in paradise.</p>
+
+  <!-- DIVIDER ES -->
+  <div class="lang-divider"><span>·</span></div>
+
+  <!-- ESPAÑOL -->
+  <p class="eyebrow">Reserva Recibida</p>
+
+  <h1>Su estancia le espera,<br><em>el paraíso está listo.</em></h1>
+
+  <div class="divider"></div>
+
+  <p class="message">
+    Gracias por elegir <strong>Ocean Properties</strong>.<br>
+    Su solicitud de reserva ha sido recibida y está siendo procesada.<br>
+    Por favor revise su bandeja de entrada — ya está en camino su email de confirmación.
+  </p>
+
+  <div class="email-note">
+    <svg viewBox="0 0 24 24" stroke-width="1.5"><rect x="2" y="4" width="20" height="16" rx="2"/><polyline points="2,4 12,13 22,4"/></svg>
+    Si no lo recibe en unos minutos, revise su carpeta de spam.
+  </div>
+
+  <p class="closing">Hasta pronto, en el paraíso.</p>
+
+  <!-- DIVIDER FR -->
+  <div class="lang-divider"><span>·</span></div>
+
+  <!-- FRANÇAIS -->
+  <p class="eyebrow">Réservation Reçue</p>
+
+  <h1>Votre séjour vous attend,<br><em>le paradis est prêt.</em></h1>
+
+  <div class="divider"></div>
+
+  <p class="message">
+    Merci d'avoir choisi <strong>Ocean Properties</strong>.<br>
+    Votre demande de réservation a bien été reçue et est en cours de traitement.<br>
+    Veuillez consulter votre boîte de réception — un email de confirmation vous a été envoyé.
+  </p>
+
+  <div class="email-note">
+    <svg viewBox="0 0 24 24" stroke-width="1.5"><rect x="2" y="4" width="20" height="16" rx="2"/><polyline points="2,4 12,13 22,4"/></svg>
+    Si vous ne le recevez pas sous quelques minutes, vérifiez vos courriers indésirables.
+  </div>
+
+  <p class="closing">À très bientôt, au paradis.</p>
+
+</div>
+
+</body>
+</html>
