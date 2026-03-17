@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Payment Incomplete — Ocean Properties</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Jost:wght@200;300;400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --sand: #f5f0e8;
+    --deep: #1a1a18;
+    --gold: #c9a96e;
+    --sage: #8a9e8c;
+    --cream: #faf7f2;
+    --muted: #8a8880;
+    --warm-red: #c47a5a;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background-color: var(--cream);
+    color: var(--deep);
+    font-family: 'Jost', sans-serif;
+    font-weight: 300;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 70% 50% at 50% 0%, rgba(196,122,90,0.05) 0%, transparent 65%),
+      radial-gradient(ellipse 50% 70% at 0% 100%, rgba(201,169,110,0.05) 0%, transparent 55%);
+    pointer-events: none;
+  }
+
+  body::after {
+    content: '∿∿∿∿∿∿∿∿∿∿∿∿∿∿∿∿∿∿∿∿∿∿∿∿∿∿∿∿∿∿∿∿∿∿∿∿∿∿∿∿';
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    text-align: center;
+    font-size: 11px;
+    letter-spacing: 2px;
+    color: rgba(201,169,110,0.12);
+    overflow-x: hidden;
+    white-space: nowrap;
+    padding: 12px 0;
+  }
+
+  .container {
+    text-align: center;
+    padding: 60px 40px;
+    margin: 0 auto;
+    max-width: 700px;
+    width: 90%;
+    animation: fadeUp 1.2s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .logo-area {
+    margin-bottom: 44px;
+    animation: fadeUp 1s ease 0.2s both;
+  }
+
+  .logo-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 400;
+    font-size: 0.75rem;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .tagline {
+    font-family: 'Jost', sans-serif;
+    font-weight: 200;
+    font-size: 8px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: rgba(138,158,140,0.7);
+    margin-top: 4px;
+  }
+
+  .icon-wrap {
+    width: 72px;
+    height: 72px;
+    margin: 0 auto 36px;
+    border: 1px solid rgba(196,122,90,0.4);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: scaleIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.3s both;
+    position: relative;
+  }
+
+  .icon-wrap::before {
+    content: '';
+    position: absolute;
+    inset: -6px;
+    border-radius: 50%;
+    border: 1px solid rgba(196,122,90,0.15);
+  }
+
+  @keyframes scaleIn {
+    from { opacity: 0; transform: scale(0.7); }
+    to { opacity: 1; transform: scale(1); }
+  }
+
+  .icon-wrap svg {
+    width: 26px;
+    height: 26px;
+    stroke: var(--warm-red);
+    fill: none;
+    stroke-width: 1.5;
+  }
+
+  .eyebrow {
+    font-family: 'Jost', sans-serif;
+    font-weight: 200;
+    font-size: 10px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--warm-red);
+    margin-bottom: 20px;
+    animation: fadeUp 1s ease 0.4s both;
+  }
+
+  h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    font-size: clamp(2rem, 4.5vw, 3rem);
+    line-height: 1.2;
+    color: var(--deep);
+    margin-bottom: 8px;
+    animation: fadeUp 1s ease 0.5s both;
+  }
+
+  h1 em {
+    font-style: italic;
+    color: var(--gold);
+  }
+
+  .divider {
+    width: 40px;
+    height: 1px;
+    background: rgba(196,122,90,0.4);
+    margin: 28px auto;
+    animation: expand 0.8s ease 0.7s both;
+    transform-origin: center;
+  }
+
+  @keyframes expand {
+    from { transform: scaleX(0); opacity: 0; }
+    to { transform: scaleX(1); opacity: 1; }
+  }
+
+  .message {
+    font-size: 0.95rem;
+    line-height: 1.9;
+    color: #555550;
+    animation: fadeUp 1s ease 0.7s both;
+  }
+
+  /* Troubleshooting steps */
+  .steps {
+    margin: 28px auto;
+    max-width: 440px;
+    text-align: left;
+    animation: fadeUp 1s ease 0.8s both;
+  }
+
+  .step {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 12px 0;
+    border-bottom: 1px solid rgba(201,169,110,0.1);
+    font-size: 0.85rem;
+    color: #666660;
+    line-height: 1.6;
+  }
+
+  .step:last-child { border-bottom: none; }
+
+  .step-num {
+    width: 22px;
+    height: 22px;
+    border: 1px solid rgba(201,169,110,0.35);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 9px;
+    letter-spacing: 0.5px;
+    color: var(--gold);
+    flex-shrink: 0;
+    margin-top: 1px;
+    font-family: 'Jost', sans-serif;
+    font-weight: 300;
+  }
+
+  /* CTA buttons */
+  .actions {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    margin-top: 32px;
+    animation: fadeUp 1s ease 0.95s both;
+  }
+
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--deep);
+    color: var(--cream);
+    text-decoration: none;
+    font-family: 'Jost', sans-serif;
+    font-weight: 300;
+    font-size: 0.8rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 14px 32px;
+    transition: background 0.3s ease;
+  }
+
+  .btn-primary:hover { background: #2d2d2a; }
+
+  .btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    border: 1px solid rgba(201,169,110,0.4);
+    color: var(--gold);
+    text-decoration: none;
+    font-family: 'Jost', sans-serif;
+    font-weight: 300;
+    font-size: 0.8rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 13px 32px;
+    transition: all 0.3s ease;
+  }
+
+  .btn-secondary:hover {
+    background: rgba(201,169,110,0.06);
+    border-color: var(--gold);
+  }
+
+  .btn-secondary svg, .btn-primary svg {
+    width: 14px;
+    height: 14px;
+    fill: currentColor;
+    flex-shrink: 0;
+  }
+
+  .contact-note {
+    font-size: 0.78rem;
+    color: var(--muted);
+    margin-top: 16px;
+    letter-spacing: 0.3px;
+  }
+
+  .contact-note a {
+    color: var(--gold);
+    text-decoration: none;
+  }
+
+  .lang-divider {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin: 52px 0 44px;
+    animation: fadeUp 1s ease 0.6s both;
+  }
+
+  .lang-divider::before,
+  .lang-divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(to right, transparent, rgba(201,169,110,0.25), transparent);
+  }
+
+  .lang-divider span {
+    font-size: 9px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: rgba(201,169,110,0.4);
+    font-weight: 300;
+  }
+
+  @media (max-width: 480px) {
+    .container { padding: 40px 24px; }
+    .actions { width: 100%; }
+    .btn-primary, .btn-secondary {
+      width: 100%;
+      justify-content: center;
+    }
+    .steps { max-width: 100%; }
+    .email-note { text-align: left; }
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <div class="logo-area">
+    <img src="https://raw.githubusercontent.com/oceanproperties-hue/ocean-properties-email-library/main/assets/logo-circle-black.png" alt="Ocean Properties" style="height:60px; width:auto; display:block; margin:0 auto 10px;">
+    <div class="logo-text">Ocean Properties</div>
+    <div class="tagline">Where Elegance Meets Seclusion</div>
+  </div>
+
+  <div class="icon-wrap">
+    <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><circle cx="12" cy="16" r="0.5" fill="currentColor" stroke="none"/></svg>
+  </div>
+
+  <!-- ENGLISH -->
+  <p class="eyebrow">Payment Incomplete</p>
+
+  <h1>Almost there —<br><em>let us help you.</em></h1>
+
+  <div class="divider"></div>
+
+  <p class="message">
+    We were unable to process your payment at this time.<br>
+    Your reservation has not been confirmed yet, but we're here to assist you.
+  </p>
+
+  <div class="steps">
+    <div class="step">
+      <span class="step-num">1</span>
+      <span>Verify your card's <strong>available balance</strong> or credit limit for this amount.</span>
+    </div>
+    <div class="step">
+      <span class="step-num">2</span>
+      <span>Confirm your card has not <strong>expired</strong> and the details entered are correct.</span>
+    </div>
+    <div class="step">
+      <span class="step-num">3</span>
+      <span>Check with your bank whether <strong>international transactions</strong> are enabled on your card.</span>
+    </div>
+    <div class="step">
+      <span class="step-num">4</span>
+      <span>Try again using a <strong>different card</strong>, or contact our team for manual assistance.</span>
+    </div>
+  </div>
+
+  <div class="actions">
+    <a href="javascript:history.back()" class="btn-primary">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="14" height="14"><polyline points="15,18 9,12 15,6"/></svg>
+      Try Again
+    </a>
+    <a href="https://wa.me/50764799595" class="btn-secondary">
+      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+      WhatsApp Us
+    </a>
+  </div>
+
+  <p class="contact-note">Or write to us at <a href="mailto:reservations@pedasioceanproperties.com">reservations@pedasioceanproperties.com</a></p>
+
+  <!-- DIVIDER ES -->
+  <div class="lang-divider"><span>·</span></div>
+
+  <!-- ESPAÑOL -->
+  <p class="eyebrow">Pago No Procesado</p>
+
+  <h1>Casi listo —<br><em>permítanos ayudarle.</em></h1>
+
+  <div class="divider"></div>
+
+  <p class="message">
+    No fue posible procesar su pago en este momento.<br>
+    Su reserva aún no ha sido confirmada, pero estamos aquí para asistirle.
+  </p>
+
+  <div class="steps">
+    <div class="step">
+      <span class="step-num">1</span>
+      <span>Verifique el <strong>saldo disponible</strong> o límite de crédito de su tarjeta para este monto.</span>
+    </div>
+    <div class="step">
+      <span class="step-num">2</span>
+      <span>Confirme que su tarjeta <strong>no ha vencido</strong> y que los datos ingresados son correctos.</span>
+    </div>
+    <div class="step">
+      <span class="step-num">3</span>
+      <span>Consulte con su banco si las <strong>transacciones internacionales</strong> están habilitadas en su tarjeta.</span>
+    </div>
+    <div class="step">
+      <span class="step-num">4</span>
+      <span>Intente nuevamente con una <strong>tarjeta diferente</strong>, o contáctenos para asistencia manual.</span>
+    </div>
+  </div>
+
+  <div class="actions">
+    <a href="javascript:history.back()" class="btn-primary">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="14" height="14"><polyline points="15,18 9,12 15,6"/></svg>
+      Intentar Nuevamente
+    </a>
+    <a href="https://wa.me/50764799595" class="btn-secondary">
+      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+      WhatsApp
+    </a>
+  </div>
+
+  <p class="contact-note">O escríbanos a <a href="mailto:reservations@pedasioceanproperties.com">reservations@pedasioceanproperties.com</a></p>
+
+  <!-- DIVIDER FR -->
+  <div class="lang-divider"><span>·</span></div>
+
+  <!-- FRANÇAIS -->
+  <p class="eyebrow">Paiement Non Traité</p>
+
+  <h1>Presque là —<br><em>laissez-nous vous aider.</em></h1>
+
+  <div class="divider"></div>
+
+  <p class="message">
+    Nous n'avons pas pu traiter votre paiement pour le moment.<br>
+    Votre réservation n'est pas encore confirmée, mais nous sommes là pour vous aider.
+  </p>
+
+  <div class="steps">
+    <div class="step">
+      <span class="step-num">1</span>
+      <span>Vérifiez le <strong>solde disponible</strong> ou la limite de crédit de votre carte pour ce montant.</span>
+    </div>
+    <div class="step">
+      <span class="step-num">2</span>
+      <span>Confirmez que votre carte <strong>n'est pas expirée</strong> et que les informations saisies sont correctes.</span>
+    </div>
+    <div class="step">
+      <span class="step-num">3</span>
+      <span>Vérifiez auprès de votre banque si les <strong>transactions internationales</strong> sont activées sur votre carte.</span>
+    </div>
+    <div class="step">
+      <span class="step-num">4</span>
+      <span>Réessayez avec une <strong>autre carte</strong>, ou contactez notre équipe pour une assistance manuelle.</span>
+    </div>
+  </div>
+
+  <div class="actions">
+    <a href="javascript:history.back()" class="btn-primary">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="14" height="14"><polyline points="15,18 9,12 15,6"/></svg>
+      Réessayer
+    </a>
+    <a href="https://wa.me/50764799595" class="btn-secondary">
+      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+      WhatsApp
+    </a>
+  </div>
+
+  <p class="contact-note">Ou écrivez-nous à <a href="mailto:reservations@pedasioceanproperties.com">reservations@pedasioceanproperties.com</a></p>
+
+</div>
+
+</body>
+</html>
